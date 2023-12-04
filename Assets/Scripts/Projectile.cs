@@ -15,11 +15,18 @@ public class Projectile : MonoBehaviour
     protected Vector3 AimDirection = new Vector3();
 
     public float MovementSpeed = 10.0f;
+    public bool HasInit = false;
 
     public virtual void Start()
     {
         ProjectileObject.SetActive(true);
         DetonationObject.SetActive(false);
+        if(HasInit)
+        {
+            AimDirection = AimPosition - SpawnPosition;
+            gameObject.transform.position = SpawnPosition;
+            gameObject.transform.LookAt(AimDirection, transform.up);
+        }
     }
     public virtual void Init(Vector3 aSpawnPosition, Vector3 aAimPosition)
     {
@@ -27,7 +34,8 @@ public class Projectile : MonoBehaviour
         AimPosition = aAimPosition;
         AimDirection = AimPosition - SpawnPosition;
         gameObject.transform.position = SpawnPosition;
-        gameObject.transform.LookAt(AimDirection, transform.up);
+        //gameObject.transform.LookAt(AimDirection, transform.up);
+        HasInit = true;
     }
 
     public virtual void Update()
